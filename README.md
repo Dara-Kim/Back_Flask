@@ -1,4 +1,4 @@
-# Server_Flask
+# Back_Flask
 
 ## **GitHub 협업 공지사항**
 
