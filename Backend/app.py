@@ -1,5 +1,4 @@
-from flask import Flask, render_template
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, redirect, url_for, flash
 import hashlib
 
 app = Flask(__name__)
