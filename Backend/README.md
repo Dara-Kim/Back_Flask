@@ -1,56 +1,56 @@
 # DASORI
-Project Dasori: SKT FLY AI 4ê¸° Ziller DaSori ì„œë¹„ìŠ¤ í”„ë¡œì íŠ¸ì˜ Backend Repositoryì…ë‹ˆë‹¤.
+Project Dasori: SKT FLY AI 4±â Ziller DaSori ¼­ºñ½º ÇÁ·ÎÁ§Æ®ÀÇ Backend RepositoryÀÔ´Ï´Ù.
 
-Backend: ê¹€ë‹¤ì€, ë¬¸ì •í˜„, ì´ê°€ê²½
+Backend: ±è´ÙÀº, ¹®Á¤Çö, ÀÌ°¡°æ
 
 
 ---
-## í´ë” êµ¬ì¡°
+## Æú´õ ±¸Á¶
 
-app: ì–´í”Œë¦¬ì¼€ì´ì…˜ êµ¬ë™ í´ë”
-config: í™˜ê²½ ë³€ìˆ˜ ì„¤ì •ì´ë‹ˆê¹Œ ë°°í¬í•  ë•Œ ë‹¤ì‹œ ìƒê°í•´ë³´ê¸°
-manage.py: í˜¸ìŠ¤íŒ… ì„œë²„ ì£¼ì†Œ, ì™„ë£Œëœ appì„ ë¶ˆëŸ¬ì˜´
-model: ê° DB ë³„ ORM ê´€ë¦¬ í´ë” 
-provider: API ì‘ì„± íŒŒì¼ í´ë”
-router: ê° API ë³„ blueprint ê´€ë¦¬ í´ë”
-
-.
-â”œâ”€â”€ README.md
-â”œâ”€â”€ app
-â”‚   â””â”€â”€ __init__.py
-â”œâ”€â”€ config
-â”‚   â”œâ”€â”€ __init__.py 
-â”‚   â””â”€â”€ flask_config.py
-â”œâ”€â”€ manage.py
-â”œâ”€â”€ model
-â”‚   â”œâ”€â”€ __init__.py
-â”‚   â””â”€â”€ member_model.py
-â”‚   â””â”€â”€ parent_model.py
-â”‚   â””â”€â”€ child_model.py
-â”œâ”€â”€ provider
-â”‚   â”œâ”€â”€ __init__.py
-â”‚   â”œâ”€â”€ common_provider.py
-â”‚   â”œâ”€â”€ auths
-â”‚   â”‚   â”œâ”€â”€ __init__.py
-â”‚   â”‚   â””â”€â”€ signup.py
-â”‚   â”‚   â””â”€â”€ login.py
-â”‚   â”‚   â””â”€â”€ find_account.py
-â”‚   â”œâ”€â”€ diary
-â”‚   â”‚   â”œâ”€â”€ __init__.py
-â”‚   â”‚   â””â”€â”€ diary_management.py
-â”‚   â””â”€â”€ stats
-â”‚       â”œâ”€â”€ __init__.py
-â”‚       â”œâ”€â”€ parent_stats.py
-â”‚       â””â”€â”€ child_stats.py
-â”œâ”€â”€ requirements.txt
-â””â”€â”€ router
-    â”œâ”€â”€ __init__.py
-    â”œâ”€â”€ auths
-    â”‚   â”œâ”€â”€ __init__.py
-    â”‚   â””â”€â”€ auths_router.py
-    â”œâ”€â”€ diary
-    â”‚   â”œâ”€â”€ __init__.py
-    â”‚   â””â”€â”€ diary_router.py
-    â””â”€â”€ stats
-        â”œâ”€â”€ __init__.py
-        â””â”€â”€ stats_router.py
+app: ¾îÇÃ¸®ÄÉÀÌ¼Ç ±¸µ¿ Æú´õ</br>
+config: È¯°æ º¯¼ö ¼³Á¤ÀÌ´Ï±î ¹èÆ÷ÇÒ ¶§ ´Ù½Ã »ı°¢ÇØº¸±â</br>
+manage.py: È£½ºÆÃ ¼­¹ö ÁÖ¼Ò, ¿Ï·áµÈ appÀ» ºÒ·¯¿È</br>
+model: °¢ DB º° ORM °ü¸® Æú´õ </br>
+provider: API ÀÛ¼º ÆÄÀÏ Æú´õ</br>
+router: °¢ API º° blueprint °ü¸® Æú´õ</br>
+</br>
+.</br>
+¦§¦¡¦¡ README.md </br>
+¦§¦¡¦¡ app </br>
+¦¢   ¦¦¦¡¦¡ __init__.py </br>
+¦§¦¡¦¡ config </br>
+¦¢   ¦§¦¡¦¡ __init__.py </br>
+¦¢   ¦¦¦¡¦¡ flask_config.py</br>
+¦§¦¡¦¡ manage.py</br>
+¦§¦¡¦¡ model</br>
+¦¢   ¦§¦¡¦¡ __init__.py</br>
+¦¢   ¦¦¦¡¦¡ member_model.py</br>
+¦¢   ¦¦¦¡¦¡ parent_model.py</br>
+¦¢   ¦¦¦¡¦¡ child_model.py</br>
+¦§¦¡¦¡ provider</br>
+¦¢   ¦§¦¡¦¡ __init__.py</br>
+¦¢   ¦§¦¡¦¡ common_provider.py</br>
+¦¢   ¦§¦¡¦¡ auths</br>
+¦¢   ¦¢   ¦§¦¡¦¡ __init__.py</br>
+¦¢   ¦¢   ¦¦¦¡¦¡ signup.py</br>
+¦¢   ¦¢   ¦¦¦¡¦¡ login.py</br>
+¦¢   ¦¢   ¦¦¦¡¦¡ find_account.py</br>
+¦¢   ¦§¦¡¦¡ diary</br>
+¦¢   ¦¢   ¦§¦¡¦¡ __init__.py</br>
+¦¢   ¦¢   ¦¦¦¡¦¡ diary_management.py</br>
+¦¢   ¦¦¦¡¦¡ stats</br>
+¦¢       ¦§¦¡¦¡ __init__.py</br>
+¦¢       ¦§¦¡¦¡ parent_stats.py</br>
+¦¢       ¦¦¦¡¦¡ child_stats.py</br>
+¦§¦¡¦¡ requirements.txt</br>
+¦¦¦¡¦¡ router</br>
+    ¦§¦¡¦¡ __init__.py</br>
+    ¦§¦¡¦¡ auths</br>
+    ¦¢   ¦§¦¡¦¡ __init__.py</br>
+    ¦¢   ¦¦¦¡¦¡ auths_router.py</br>
+    ¦§¦¡¦¡ diary</br>
+    ¦¢   ¦§¦¡¦¡ __init__.py</br>
+    ¦¢   ¦¦¦¡¦¡ diary_router.py</br>
+    ¦¦¦¡¦¡ stats
+        ¦§¦¡¦¡ __init__.py</br>
+        ¦¦¦¡¦¡ stats_router.py</br>
