@@ -1,19 +1,18 @@
 from flask import Blueprint, request, jsonify
-from provider.auths.login import login  # login 함수 임포트
+from provider.auths.login import login
 
 auths_router = Blueprint('auths', __name__)
 
+
 @auths_router.route('/logIn', methods=['POST'])
 def handle_login():
-    # 요청에서 아이디와 비밀번호 추출
+    # Extracting Id and Password from request
     username = request.json.get('username')
     password = request.json.get('password')
-    
-    # 로그인 함수 호출
-    success, message = login(username, password)
-    
-    # 응답 반환
-    if success:
-        return jsonify({"message": message}), 200
+    # Calling function "login"
+    isSuccess, code, message = login(username, password)
+    # Returning response
+    if isSuccess:
+        return jsonify({"pid": 1})
     else:
-        return jsonify({"message": message}), 401
+        return code, message
