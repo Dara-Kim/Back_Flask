@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify
-from provider.diary.diary_management import writing_parent_diary
-from provider.diary.diary_management import writing_child_diary
-
-from werkzeug.utils import secure_filename
-import os
+from provider.diary.diary_management import writing_parent_diary, choosing_parent_diary
+from provider.diary.diary_management import writing_child_diary, choosing_child_diary
 
 diary_router = Blueprint("/home", __name__)
 
@@ -39,5 +36,49 @@ def handle_writing_child_diary():
             "correctedText": correctedText,
             "translatedText": translatedText,
             "imageUrl": imageUrl,
+        }
+    )
+
+
+@diary_router.route(f"/home/parent/<int:pdid>", methods=["GET"])
+def handle_choosing_parent_diary(pdid):
+    date = request.json.get("date")
+
+    (
+        correctedText,
+        translatedText,
+        imageUrl,
+        characterUrl_parent,
+        characterUrl_child,
+    ) = choosing_parent_diary(date, pdid)
+    return jsonify(
+        {
+            "correctedText": correctedText,
+            "translatedText": translatedText,
+            "imageUrl": imageUrl,
+            "characterUrl_parent": characterUrl_parent,
+            "characterUrl_child": characterUrl_child,
+        }
+    )
+
+
+@diary_router.route(f"/home/child/<int:cdid>", methods=["GET"])
+def handle_choosing_child_diary(cdid):
+    date = request.json.get("date")
+
+    (
+        correctedText,
+        translatedText,
+        imageUrl,
+        characterUrl_parent,
+        characterUrl_child,
+    ) = choosing_child_diary(date, cdid)
+    return jsonify(
+        {
+            "correctedText": correctedText,
+            "translatedText": translatedText,
+            "imageUrl": imageUrl,
+            "characterUrl_parent": characterUrl_parent,
+            "characterUrl_child": characterUrl_child,
         }
     )
