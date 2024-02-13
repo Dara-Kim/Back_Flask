@@ -1,4 +1,5 @@
 from flask import Flask
+from app import db
 
 
 def register_router(flask_app: Flask):
@@ -12,4 +13,5 @@ def register_router(flask_app: Flask):
 def create_app():
     app = Flask(__name__)
     register_router(app)
+    
     return app
