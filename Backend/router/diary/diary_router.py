@@ -1,8 +1,32 @@
 from flask import Blueprint, request, jsonify
-from provider.diary.diary_management import writing_parent_diary, choosing_parent_diary
+from provider.diary.diary_management import (
+    DiaryService,
+    writing_parent_diary,
+    choosing_parent_diary,
+)
 from provider.diary.diary_management import writing_child_diary, choosing_child_diary
 
+
 diary_router = Blueprint("/home", __name__)
+
+
+@diary_router.route("/home", methods=["GET"])
+def DiaryService_displaying_home():
+    pid = request.form.get("pid")
+    date = request.json["date"]
+
+    Diary = DiaryService(date, pid)
+    completeList = Diary.get_complete_list(date, pid)
+    parentDto = Diary.get_parent_diary_preview(date, pid)
+    childDto = Diary.get_child_diary_preview(date, pid)
+
+    return jsonify(
+        {
+            "completeList": completeList,
+            "get_parent_diary_preview": parentDto,
+            "get_child_diary_preview": childDto,
+        }
+    )
 
 
 @diary_router.route("/home/parent", methods=["POST"])
