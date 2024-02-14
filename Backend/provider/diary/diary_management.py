@@ -7,8 +7,8 @@ class DiaryService:
         self.date = date
         self.pid = pid
 
+    # @가경 db check
     def get_complete_list(self, date, pid):
-        # db check
         completeListStr = [
             "2024-01-01",
             "2024-01-05",
@@ -22,8 +22,8 @@ class DiaryService:
 
         return completeList
 
+    # @가경 db check
     def get_parent_diary_preview(self, date, pid):
-        # db check
         pdid = "1111111"
         correctedText = "티비를 봤다. 베트남 이야기가 나와서 그리웠다."
         translatedText = "~~~vietnamese~~~"
@@ -36,8 +36,8 @@ class DiaryService:
             "imageUrl": imageUrl,
         }
 
+    # @가경 db check
     def get_child_diary_preview(self, date, pid):
-        # db check
         cdid = 1
         correctedText = "동시를 했다. 동시를 조금 외웠다. 재밌었다."
         translatedText = "~~~vietnamese~~~"
@@ -56,50 +56,40 @@ class DiaryService:
     #     message =
 
 
-def writing_parent_diary(pid, text, image):
+# @가경 db Create
+def writing_parent_diary(pid, today, text, image):
     # imageUrl = f'http://yourserver.com/{filename}'
     root = "./Backend/provider/diary/tmp_s3/"
     imageUrl = root + image.filename
     image.save(imageUrl)
 
-    # diary correcting api
+    # @ 무너 api
     correctedText = "correctedText"
-
-    # diary translating api
     translatedText = "translatedText"
 
     return correctedText, translatedText, imageUrl
 
 
-def writing_child_diary(pid, image):
+# @가경 db Create
+def writing_child_diary(pid, today, image):
     # imageUrl = f'http://yourserver.com/{filename}'
     root = "./Backend/provider/diary/tmp_s3/"
     imageUrl = root + image.filename
     image.save(imageUrl)
 
-    # diary correcting api
+    # @ 무너 api
     correctedText = "correctedText"
-
-    # diary translating api
     translatedText = "translatedText"
 
     return correctedText, translatedText, imageUrl
 
 
+# @가경 db check
 def choosing_parent_diary(date, pdid):
-    # db check
     correctedText = f"correctedText/{date}/{pdid}"
-
-    # db check
     translatedText = f"translatedText/{date}/{pdid}"
-
-    # db check
     imageUrl = f"http://yourserver.com/imageUrl/{date}/{pdid}"
-
-    # db check
     characterUrl_parent = f"http://yourserver.com/characterUrl_parent/{date}/{pdid}"
-
-    # db check
     characterUrl_child = f"http://yourserver.com/characterUrl_child/{date}/{pdid}"
 
     return (
@@ -111,20 +101,12 @@ def choosing_parent_diary(date, pdid):
     )
 
 
+# @가경 db check
 def choosing_child_diary(date, cdid):
-    # db check
     correctedText = f"correctedText/{date}/{cdid}"
-
-    # db check
     translatedText = f"translatedText/{date}/{cdid}"
-
-    # db check
     imageUrl = f"http://yourserver.com/imageUrl/{date}/{cdid}"
-
-    # db check
     characterUrl_parent = f"http://yourserver.com/characterUrl_parent/{date}/{cdid}"
-
-    # db check
     characterUrl_child = f"http://yourserver.com/characterUrl_child/{date}/{cdid}"
 
     return (
