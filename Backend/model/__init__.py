@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, and_
+from sqlalchemy import create_engine, and_, desc
 from sqlalchemy.orm import sessionmaker
 from model import PARENTDIARY, PROFILE, CHILDDIARY
 import databaseConfig, model
@@ -17,7 +17,7 @@ print("-----session commit complete -----")
 
 # ----- Database에서 데이터 통신 -----#
 
-# example
+# test
 profile1 = session.query(PROFILE).first()
 print(profile1.ID)
 
@@ -68,26 +68,82 @@ def get_profile(pid):
 
 # 최근 7개 부모 일기 통계 불러오기
 # 통계 최근 7개 리포트에서 제공
-def get_recent7_parent_diary():
-    return
+def get_recent7_parent_stats(pid):
+    lang_ratio_list = (
+        session.query(PARENTDIARY.pd_langRatio)
+        .order_by(desc(PARENTDIARY.id_pd))
+        .filter(PARENTDIARY.id_profile == pid)
+        .limit(7)
+        .all()
+    )
+    correct_ratio_list = (
+        session.query(PARENTDIARY.pd_langRatio)
+        .order_by(desc(PARENTDIARY.id_pd))
+        .filter(PARENTDIARY.id_profile == pid)
+        .limit(7)
+        .all()
+    )
+    return lang_ratio_list, correct_ratio_list
 
 
 # 최근 7개 아이 일기 통계 불러오기
 # 통계 최근 7개 리포트에서 제공
-def get_recent7_child_diary():
-    return
+def get_recent7_child_stats(pid):
+    correct_ratio_list = (
+        session.query(CHILDDIARY.cd_langRatio)
+        .order_by(desc(CHILDDIARY.id_cd))
+        .filter(CHILDDIARY.id_profile == pid)
+        .limit(7)
+        .all()
+    )
+    mood_list = (
+        session.query(CHILDDIARY.cd_mood)
+        .order_by(desc(CHILDDIARY.id_cd))
+        .filter(CHILDDIARY.id_profile == pid)
+        .limit(7)
+        .all()
+    )
+    return correct_ratio_list, mood_list
 
 
 # 최근 30개 부모 일기 통계 불러오기
 # 통계 최근 30개 리포트에서 제공
-def recent30_parent_diary():
-    return
+def recent30_parent_stats(pid):
+    lang_ratio_list = (
+        session.query(PARENTDIARY.pd_langRatio)
+        .order_by(desc(PARENTDIARY.id_pd))
+        .filter(PARENTDIARY.id_profile == pid)
+        .limit(30)
+        .all()
+    )
+    correct_ratio_list = (
+        session.query(PARENTDIARY.pd_langRatio)
+        .order_by(desc(PARENTDIARY.id_pd))
+        .filter(PARENTDIARY.id_profile == pid)
+        .limit(30)
+        .all()
+    )
+    return lang_ratio_list, correct_ratio_list
 
 
 # 최근 30개 아이 일기 통계 불러오기
 # 통계 최근 30개 리포트에서 제공
-def recent30_child_diary():
-    return
+def recent30_child_stats(pid):
+    correct_ratio_list = (
+        session.query(CHILDDIARY.cd_langRatio)
+        .order_by(desc(CHILDDIARY.id_cd))
+        .filter(CHILDDIARY.id_profile == pid)
+        .limit(7)
+        .all()
+    )
+    mood_list = (
+        session.query(CHILDDIARY.cd_mood)
+        .order_by(desc(CHILDDIARY.id_cd))
+        .filter(CHILDDIARY.id_profile == pid)
+        .limit(7)
+        .all()
+    )
+    return correct_ratio_list, mood_list
 
 
 # -- Set(DB에 값을 집어넣는) 함수 --#

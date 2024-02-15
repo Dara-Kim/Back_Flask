@@ -10,46 +10,50 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # database table, 클래스간 mapping #
 # metaclass 생성
-Base = declarative_base() # Base를 상속받은 클래스들은 모두 테이블과 매칭되는 클래스로 인식됨
+Base = declarative_base()  # Base를 상속받은 클래스들은 모두 테이블과 매칭되는 클래스로 인식됨
+
 
 def init_db(eng):
     Base.metadata.bind = eng
     print("db_init")
 
+
 class PROFILE(Base):
-    __tablename__ = 'PROFILE'
+    __tablename__ = "PROFILE"
 
     id_profile = Column(Integer, primary_key=True)
-    ID = Column(String(20, 'utf8mb3_unicode_ci'), nullable=False, unique=True)
-    Password = Column(String(20, 'utf8mb3_unicode_ci'), nullable=False)
-    pName = Column(String(20, 'utf8mb3_unicode_ci'), nullable=False)
+    ID = Column(String(20, "utf8mb3_unicode_ci"), nullable=False, unique=True)
+    Password = Column(String(20, "utf8mb3_unicode_ci"), nullable=False)
+    pName = Column(String(20, "utf8mb3_unicode_ci"), nullable=False)
     pAge = Column(Integer, nullable=False)
-    pCountry = Column(String(10, 'utf8mb3_unicode_ci'), nullable=False)
-    pGender = Column(CHAR(1, 'utf8mb3_unicode_ci'), nullable=False, comment="'M / F'")
-    pNumber = Column(String(20, 'utf8mb3_unicode_ci'), nullable=False)
-    cName = Column(String(20, 'utf8mb3_unicode_ci'), nullable=False)
+    pCountry = Column(String(10, "utf8mb3_unicode_ci"), nullable=False)
+    pGender = Column(CHAR(1, "utf8mb3_unicode_ci"), nullable=False, comment="'M / F'")
+    pNumber = Column(String(20, "utf8mb3_unicode_ci"), nullable=False)
+    cName = Column(String(20, "utf8mb3_unicode_ci"), nullable=False)
     cAge = Column(Integer, nullable=False)
-    cGender = Column(CHAR(1, 'utf8mb3_unicode_ci'), nullable=False, comment="'M / F'")
+    cGender = Column(CHAR(1, "utf8mb3_unicode_ci"), nullable=False, comment="'M / F'")
 
 
 class CHILDDIARY(Base):
-    __tablename__ = 'CHILD_DIARY'
+    __tablename__ = "CHILD_DIARY"
 
     id_cd = Column(Integer, primary_key=True)
     cd_date = Column(DateTime, nullable=False)
-    cd_corrected = Column(String(200, 'utf8mb3_unicode_ci'), nullable=False)
-    cd_translated = Column(String(200, 'utf8mb3_unicode_ci'), nullable=False)
-    cd_imageURL = Column(String(255, 'utf8mb3_unicode_ci'), nullable=False)
-    cd_charURL = Column(String(255, 'utf8mb3_unicode_ci'), nullable=False)
+    cd_corrected = Column(String(200, "utf8mb3_unicode_ci"), nullable=False)
+    cd_translated = Column(String(200, "utf8mb3_unicode_ci"), nullable=False)
+    cd_imageURL = Column(String(255, "utf8mb3_unicode_ci"), nullable=False)
+    cd_charURL = Column(String(255, "utf8mb3_unicode_ci"), nullable=False)
     cd_correctRatio = Column(Float, nullable=False)
     cd_mood = Column(Float, nullable=False)
-    id_profile = Column(ForeignKey('PROFILE.id_profile', ondelete='CASCADE'), index=True)
+    id_profile = Column(
+        ForeignKey("PROFILE.id_profile", ondelete="CASCADE"), index=True
+    )
 
-    PROFILE = relationship('PROFILE')
+    PROFILE = relationship("PROFILE")
 
 
 class PARENTDIARY(Base):
-    __tablename__ = 'PARENT_DIARY'
+    __tablename__ = "PARENT_DIARY"
 
     id_pd = Column(Integer, primary_key=True)
     pd_date = Column(DateTime, nullable=False)
@@ -60,6 +64,8 @@ class PARENTDIARY(Base):
     pd_charURL = Column(VARCHAR(255), nullable=False)
     pd_langRatio = Column(Float, nullable=False)
     pd_correctRatio = Column(Float, nullable=False)
-    id_profile = Column(ForeignKey('PROFILE.id_profile', ondelete='CASCADE'), nullable=False, index=True)
+    id_profile = Column(
+        ForeignKey("PROFILE.id_profile", ondelete="CASCADE"), nullable=False, index=True
+    )
 
-    PROFILE = relationship('PROFILE')
+    PROFILE = relationship("PROFILE")
