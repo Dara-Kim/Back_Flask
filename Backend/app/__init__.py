@@ -3,6 +3,7 @@ from flask import Flask
 
 def register_router(flask_app: Flask):
     from router.auths.auths_router import auths_router
+
     from router.diary.diary_router import diary_router
     from router.stats.stats_router import report_router
 
