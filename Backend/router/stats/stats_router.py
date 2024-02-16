@@ -5,37 +5,29 @@ from provider.stats.child_stats import ReportServiceChild
 report_router = Blueprint("/reports", __name__)
 
 
-@report_router.route("/reports/parent", methods=["GET"])
-def ReportServiceParent_displaying_report():
+@report_router.route("/reports", methods=["GET"])
+def get_report():
     pid = request.json.get("pid")
 
-    Report = ReportServiceParent(pid)
-    daily_report = Report.get_daily_report(pid)
-    # weekly_report = Report.get_weekly_report(pid)
-    # monthly_report = Report.get_monthly_report(pid)
+    # 부모 통계 불러오기 #
+    pd_Report = ReportServiceParent(pid)
+    pd_day1_report = pd_Report.get_day1_report(pid)
+    pd_day7_report = pd_Report.get_day7_report(pid)
+    pd_day30_report = pd_Report.get_day30_report(pid)
+
+    # 아이 통계 불러오기 #
+    cd_Report = ReportServiceChild(pid)
+    cd_day1_report = cd_Report.get_day1_report(pid)
+    cd_day7_report = cd_Report.get_day7_report(pid)
+    cd_day30_report = cd_Report.get_day30_report(pid)
 
     return jsonify(
         {
-            "daily_report": daily_report,
-            # "weekly_report": weekly_report,
-            # "monthly_report": monthly_report,
-        }
-    )
-
-
-@report_router.route("/reports/child", methods=["GET"])
-def ReportServiceChild_displaying_report():
-    pid = request.json.get("pid")
-
-    Report = ReportServiceChild(pid)
-    daily_report = Report.get_daily_report(pid)
-    # weekly_report = Report.get_weekly_report(pid)
-    # monthly_report = Report.get_monthly_report(pid)
-
-    return jsonify(
-        {
-            "daily_report": daily_report,
-            # "weekly_report": weekly_report,
-            # "monthly_report": monthly_report,
+            "pd_day1_report": pd_day1_report,
+            "pd_day7_report": pd_day7_report,
+            "pd_day30_report": pd_day30_report,
+            "cd_day1_report": cd_day1_report,
+            "cd_day7_report": cd_day7_report,
+            "cd_day30_report": cd_day30_report,
         }
     )

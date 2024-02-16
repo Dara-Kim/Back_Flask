@@ -3,7 +3,7 @@
 # sqlacodegen <mysql uri> > model.py # 변경된 내용을 model.py에 저장
 
 # coding: utf-8
-from sqlalchemy import CHAR, Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import CHAR, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import VARCHAR
 from sqlalchemy.ext.declarative import declarative_base
@@ -43,8 +43,8 @@ class CHILDDIARY(Base):
     cd_translated = Column(String(200, "utf8mb3_unicode_ci"), nullable=False)
     cd_imageURL = Column(String(255, "utf8mb3_unicode_ci"), nullable=False)
     cd_charURL = Column(String(255, "utf8mb3_unicode_ci"), nullable=False)
-    cd_correctRatio = Column(Float, nullable=False)
-    cd_mood = Column(Float, nullable=False)
+    cd_correctRatio = Column(Integer, nullable=False)
+    cd_mood = Column(Integer, nullable=False)
     id_profile = Column(
         ForeignKey("PROFILE.id_profile", ondelete="CASCADE"), index=True
     )
@@ -62,8 +62,8 @@ class PARENTDIARY(Base):
     pd_translated = Column(VARCHAR(200), nullable=False)
     pd_imageURL = Column(VARCHAR(255), nullable=False)
     pd_charURL = Column(VARCHAR(255), nullable=False)
-    pd_langRatio = Column(Float, nullable=False)
-    pd_correctRatio = Column(Float, nullable=False)
+    pd_langRatio = Column(Integer, nullable=False)
+    pd_correctRatio = Column(Integer, nullable=False)
     id_profile = Column(
         ForeignKey("PROFILE.id_profile", ondelete="CASCADE"), nullable=False, index=True
     )
