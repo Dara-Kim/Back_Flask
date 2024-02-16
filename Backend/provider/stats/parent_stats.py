@@ -1,46 +1,77 @@
 from flask import jsonify
 from datetime import datetime
+import model.__init__ as db
+
+db.init_db()
+
+# ----- Class 선언부 ----- #
+# ReportServiceParent - 부모 통계 호출 함수
 
 
+# (GET) /reports
+# 제공 화면: 통계 화면
 class ReportServiceParent:
     def __init__(self, pid):
         self.pid = pid
 
-    # 최신 ratio를 받아오기
-    def get_daily_report(self, pid):
+    # 부모 Today 통계 불러오기
+    def get_day1_report(self, pid):
         # db check
-        languageRatio = 75
-        correctedRatio = 80
+        date = datetime.now().date()
+        parent_diary = db.get_parent_diary(pid, date)
 
-        return {"languageRatio": languageRatio, "correctedRatio": correctedRatio}
+        languageRatio = parent_diary.pd_langRatio
+        correctedRatio = parent_diary.pd_correctRatio
 
-    # 최신 7개 ratio를 받아오기
-    def get_weekly_report(self, pid):
-        languageRatio = []
-        correctedRatio = []
+        return {"day1_lang": languageRatio, "day1_correct": correctedRatio}
 
-        for day in range(7):
-            # db check
-            daily_report = self.get_daily_report(pid)
+    # 부모 최신 7개 ratio를 받아오기
+    def get_day7_report(self, pid):
+        languageRatio, correctedRatio, dateList = db.get_recent7_parent_stats(pid)
 
-            languageRatio.append(daily_report["languageRatio"])
-            correctedRatio.append(daily_report["correctedRatio"])
+        lang_list, correct_list, date_list = [], [], []
 
-        return {"languageRatio": languageRatio, "correctedRatio": correctedRatio}
+        for i in languageRatio:
+            lang_list.append(i.pd_langRatio)
+        for i in correctedRatio:
+            correct_list.append(i.pd_correctRatio)
+        for i in dateList:
+            date_list.append(i.pd_date)
 
-    # 최신 30개 ratio를 받아오기
-    def get_monthly_report(self, pid):
-        languageRatio = []
-        correctedRatio = []
+        # for i in range(len(languageRatio)):
+        #     lang_list.append(languageRatio[i].pd_langRatio)
+        #     correct_list.append(correctedRatio[i].pd_correctRatio)
+        #     date_list.append(dateList.pd_date[i])
 
-        for day in range(30):
-            # db check
-            daily_report = self.get_daily_report(pid)
+        return {
+            "day7_lang": lang_list,
+            "day7_correct": correct_list,
+            "day7_dateList": date_list,
+        }
 
-            languageRatio.append(daily_report["languageRatio"])
-            correctedRatio.append(daily_report["correctedRatio"])
+    # 부모 최신 30개 ratio를 받아오기
+    def get_day30_report(self, pid):
+        languageRatio, correctedRatio, dateList = db.recent30_parent_stats(pid)
 
-        return {"languageRatio": languageRatio, "correctedRatio": correctedRatio}
+        lang_list, correct_list, date_list = [], [], []
+
+        for i in languageRatio:
+            lang_list.append(i.pd_langRatio)
+        for i in correctedRatio:
+            correct_list.append(i.pd_correctRatio)
+        for i in dateList:
+            date_list.append(i.pd_date)
+
+        # for i in range(len(languageRatio)):
+        #     lang_list.append(languageRatio[i].pd_langRatio)
+        #     #correct_list.append(correctedRatio[i].pd_correctRatio)
+        #     date_list.append(dateList[i].pd_date)
+
+        return {
+            "day30_lang": lang_list,
+            "day30_correct": correct_list,
+            "day30_dateList": date_list,
+        }
 
     # def result_code(self):
     #     isSuccess =

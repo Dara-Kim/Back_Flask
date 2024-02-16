@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from datetime import datetime
 from provider.diary.diary_management import (
     DiaryService,
     writing_parent_diary,
@@ -10,15 +11,19 @@ from provider.diary.diary_management import (
 diary_router = Blueprint("/home", __name__)
 
 
+# 홈 화면
 @diary_router.route("/home", methods=["GET"])
 def DiaryService_displaying_home():
     pid = request.form.get("pid")
-    date = request.json["date"]
-
+    date = datetime.now().date()
     Diary = DiaryService(date, pid)
     completeList = Diary.get_complete_list(date, pid)
     parentDto = Diary.get_parent_diary_preview(date, pid)
     childDto = Diary.get_child_diary_preview(date, pid)
+
+    # print(type(completeList))
+    # print(type(parentDto))
+    # print(type(childDto))
 
     return jsonify(
         {
@@ -29,6 +34,7 @@ def DiaryService_displaying_home():
     )
 
 
+# 부모 일기 작성 화면
 @diary_router.route("/home/parent", methods=["POST"])
 def handle_writing_parent_diary():
     # Extracting pId, text and image from request
@@ -47,6 +53,7 @@ def handle_writing_parent_diary():
     )
 
 
+# 아이 일기 작성 화면
 @diary_router.route("/home/child", methods=["POST"])
 def handle_writing_child_diary():
     # Extracting pId, text and image from request
@@ -64,45 +71,43 @@ def handle_writing_child_diary():
     )
 
 
-@diary_router.route(f"/home/parent/<int:pdid>", methods=["GET"])
-def handle_choosing_parent_diary(pdid):
-    date = request.json.get("date")
+# 소통하기 화면
+@diary_router.route(f"/home/conversation", methods=["GET"])
+def handle_choosing_parent_diary():
+    pid = request.form.get("pid")
+    date = request.form.get("date")
 
-    (
-        correctedText,
-        translatedText,
-        imageUrl,
-        characterUrl_parent,
-        characterUrl_child,
-    ) = choosing_parent_diary(date, pdid)
+    date = datetime.strptime(date, "%Y-%m-%d")
+    parent_diary = choosing_parent_diary(date, pid)
+    child_diary = choosing_child_diary(date, pid)
+
     return jsonify(
         {
-            "correctedText": correctedText,
-            "translatedText": translatedText,
-            "imageUrl": imageUrl,
-            "characterUrl_parent": characterUrl_parent,
-            "characterUrl_child": characterUrl_child,
+            "hi": "hi"
+            # "parent_diary": parent_diary,
+            # "child_diary": child_diary
         }
     )
 
 
-@diary_router.route(f"/home/child/<int:cdid>", methods=["GET"])
-def handle_choosing_child_diary(cdid):
-    date = request.json.get("date")
+# 통합중
+# @diary_router.route(f"/home/child/<int:cdid>", methods=["GET"])
+# def handle_choosing_child_diary(cdid):
+#     date = request.json.get("date")
 
-    (
-        correctedText,
-        translatedText,
-        imageUrl,
-        characterUrl_parent,
-        characterUrl_child,
-    ) = choosing_child_diary(date, cdid)
-    return jsonify(
-        {
-            "correctedText": correctedText,
-            "translatedText": translatedText,
-            "imageUrl": imageUrl,
-            "characterUrl_parent": characterUrl_parent,
-            "characterUrl_child": characterUrl_child,
-        }
-    )
+#     (
+#         correctedText,
+#         translatedText,
+#         imageUrl,
+#         characterUrl_parent,
+#         characterUrl_child,
+#     ) = choosing_child_diary(date, cdid)
+#     return jsonify(
+#         {
+#             "correctedText": correctedText,
+#             "translatedText": translatedText,
+#             "imageUrl": imageUrl,
+#             "characterUrl_parent": characterUrl_parent,
+#             "characterUrl_child": characterUrl_child,
+#         }
+#     )

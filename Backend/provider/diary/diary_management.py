@@ -1,50 +1,60 @@
 from flask import jsonify
 from datetime import datetime
+from model.model import PARENTDIARY, PROFILE, CHILDDIARY
+import model.__init__ as db
+
+db.init_db()
 
 
+# ----- Class 선언부 ----- #
+# DiaryService - 홈 화면 관련 호출 함수
 class DiaryService:
+    """
+    get_complete_list()
+    get_parent_diary_preview()
+    get_child_diary_preview()
+    """
+
     def __init__(self, date, pid):
         self.date = date
         self.pid = pid
 
-    # @가경 db check
+    # (GET) /home
+    # 한달 기준 일기 작성된 일자 불러오기
+    # 제공 화면: 홈 화면(달력)
     def get_complete_list(self, date, pid):
-        completeListStr = [
-            "2024-01-01",
-            "2024-01-05",
-            "2024-01-10",
-            "2024-01-20",
-            "2024-01-24",
-        ]
-        completeList = [
-            datetime.strptime(date_str, "%Y-%m-%d") for date_str in completeListStr
-        ]
+        # trans_date = date.date()
+        complist = []
+        completeList = db.get_date(pid, date)
+        for i in completeList:
+            complist.append(i.pd_date)
+        return complist  # list(datetime)
 
-        return completeList
-
-    # @가경 db check
+    # (GET) /home
+    # 특정 일자 부모 일기 미리보기 가져오기
+    # 제공 화면: 홈 화면(부모 일기 미리보기 칸)
     def get_parent_diary_preview(self, date, pid):
-        pdid = "1111111"
-        correctedText = "티비를 봤다. 베트남 이야기가 나와서 그리웠다."
-        translatedText = "~~~vietnamese~~~"
-        imageUrl = "https://s3.us-west-2.amazonaws.com/BUCKET1/.picturejpg"
+        parent_diary = db.get_parent_diary(pid, date)
+        correctedText = parent_diary.pd_corrected
+        translatedText = parent_diary.pd_translated
+        imageUrl = parent_diary.pd_imageURL
 
         return {
-            "pdid": pdid,
             "correctedText": correctedText,
             "translatedText": translatedText,
             "imageUrl": imageUrl,
         }
 
-    # @가경 db check
+    # (GET) /home
+    # 특정 일자 아이 일기 미리보기 가져오기
+    # 제공 화면: 홈 화면(아이 일기 미리보기 칸)
     def get_child_diary_preview(self, date, pid):
-        cdid = 1
-        correctedText = "동시를 했다. 동시를 조금 외웠다. 재밌었다."
-        translatedText = "~~~vietnamese~~~"
-        imageUrl = "https://s3.us-west-2.amazonaws.com/BUCKET1/picture1.jpg"
+        child_diary = db.get_child_diary(pid, date)
+        correctedText = child_diary.cd_corrected
+        translatedText = child_diary.cd_translated
+        imageUrl = child_diary.cd_imageURL
 
         return {
-            "cdid": cdid,
             "correctedText": correctedText,
             "translatedText": translatedText,
             "imageUrl": imageUrl,
@@ -56,63 +66,114 @@ class DiaryService:
     #     message =
 
 
-# @가경 db Create
-def writing_parent_diary(pid, today, text, image):
+# ----- 기타 함수 호출부 ----- #
+
+
+#  1. 소통화면 관련 함수  #
+# (GET) /home/conversation
+# 특정 일자 부모 일기 가져오기
+# 제공 화면: 소통 화면(부모 일기 보기 칸)
+def choosing_parent_diary(date, pid):
+    # date = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+
+    parent_diary = db.get_parent_diary(pid, date)
+    correctedText = parent_diary.pd_corrected
+    translatedText = parent_diary.pd_translated
+    imageUrl = parent_diary.pd_imageURL
+    characterUrl_parent = parent_diary.pd_charURL
+
+    return {
+        "correctedText": correctedText,  # string
+        "translatedText": translatedText,  # string
+        "imageUrl": imageUrl,  # string
+        "characterUrl": characterUrl_parent,  # string
+    }
+
+
+# (GET) /home/conversation
+# 특정 일자 아이 일기 가져오기
+# 제공 화면: 소통 화면(아이 일기 보기 칸)
+def choosing_child_diary(date, pid):
+    # date = datetime.strptime(date_string, "%Y-%m-%d")
+    child_diary = db.get_child_diary(pid, date)
+    correctedText = child_diary.cd_corrected
+    translatedText = child_diary.cd_translated
+    imageUrl = child_diary.cd_imageURL
+    characterUrl_child = child_diary.cd_charURL
+
+    return {
+        "correctedText": correctedText,  # string
+        "translatedText": translatedText,  # string
+        "imageUrl": imageUrl,  # string
+        "characterUrl": characterUrl_child,  # string
+    }
+
+
+#  2. 일기 작성 관련  #
+# (POST) /home/parent
+# 부모 일기 작성
+# 제공 화면: 부모 일기 작성 화면
+def writing_parent_diary(pid, text, image):
+    date = datetime.now().date()
+    imageUrl = "imgurl"
+    # --- 이미지 저장 부분 임시 코드 --- #
     # imageUrl = f'http://yourserver.com/{filename}'
-    root = "./Backend/provider/diary/tmp_s3/"
-    imageUrl = root + image.filename
-    image.save(imageUrl)
+    # root = "./Backend/provider/diary/tmp_s3/"
+    # imageUrl = root + image.filename
+    # image.save(imageUrl)
+    # --- #
 
     # @ 무너 api
     correctedText = "correctedText"
     translatedText = "translatedText"
+    charImgUrl = "charImgUrl"
+    corretRatio = 33
+    langRatio = 3
+
+    db.set_parent_diary(
+        pid,
+        date,
+        text,
+        correctedText,
+        translatedText,
+        imageUrl,
+        charImgUrl,
+        corretRatio,
+        langRatio,
+    )
 
     return correctedText, translatedText, imageUrl
 
 
-# @가경 db Create
-def writing_child_diary(pid, today, image):
+# (POST) /home/child
+# 아이 일기 작성
+# 제공 화면: 부모 일기 작성 화면
+def writing_child_diary(pid, image):
+    date = datetime.now().date()
+    imageUrl = "imgurl"
+    # --- 이미지 저장 부분 임시 코드 --- #
     # imageUrl = f'http://yourserver.com/{filename}'
-    root = "./Backend/provider/diary/tmp_s3/"
-    imageUrl = root + image.filename
-    image.save(imageUrl)
+    # root = "./Backend/provider/diary/tmp_s3/"
+    # imageUrl = root + image.filename
+    # image.save(imageUrl)
+    # --- #
 
     # @ 무너 api
     correctedText = "correctedText"
     translatedText = "translatedText"
+    charImgUrl = "charImgUrl"
+    corretRatio = 22
+    moodRatio = 2
+
+    db.set_child_diary(
+        pid,
+        date,
+        correctedText,
+        translatedText,
+        imageUrl,
+        charImgUrl,
+        corretRatio,
+        moodRatio,
+    )
 
     return correctedText, translatedText, imageUrl
-
-
-# @가경 db check
-def choosing_parent_diary(date, pdid):
-    correctedText = f"correctedText/{date}/{pdid}"
-    translatedText = f"translatedText/{date}/{pdid}"
-    imageUrl = f"http://yourserver.com/imageUrl/{date}/{pdid}"
-    characterUrl_parent = f"http://yourserver.com/characterUrl_parent/{date}/{pdid}"
-    characterUrl_child = f"http://yourserver.com/characterUrl_child/{date}/{pdid}"
-
-    return (
-        correctedText,
-        translatedText,
-        imageUrl,
-        characterUrl_parent,
-        characterUrl_child,
-    )
-
-
-# @가경 db check
-def choosing_child_diary(date, cdid):
-    correctedText = f"correctedText/{date}/{cdid}"
-    translatedText = f"translatedText/{date}/{cdid}"
-    imageUrl = f"http://yourserver.com/imageUrl/{date}/{cdid}"
-    characterUrl_parent = f"http://yourserver.com/characterUrl_parent/{date}/{cdid}"
-    characterUrl_child = f"http://yourserver.com/characterUrl_child/{date}/{cdid}"
-
-    return (
-        correctedText,
-        translatedText,
-        imageUrl,
-        characterUrl_parent,
-        characterUrl_child,
-    )
