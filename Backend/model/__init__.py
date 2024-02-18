@@ -213,6 +213,7 @@ def set_parent_diary(
     char_image,
     langRatio,
     correct_ratio,
+    question,
 ):
     pDiary = PARENTDIARY(
         id_profile=pid,
@@ -224,6 +225,7 @@ def set_parent_diary(
         pd_charURL=char_image,
         pd_correctRatio=correct_ratio,
         pd_langRatio=langRatio,
+        pd_question=question,
     )
     session.add(pDiary)
     session.commit()
@@ -239,6 +241,7 @@ def set_child_diary(
     char_image,
     correct_ratio,
     mood_ratio,
+    question,
 ):
     cDiary = CHILDDIARY(
         id_profile=pid,
@@ -249,6 +252,7 @@ def set_child_diary(
         cd_charURL=char_image,
         cd_correctRatio=correct_ratio,
         cd_mood=mood_ratio,
+        cd_question=question,
     )
     session.add(cDiary)
     session.commit()

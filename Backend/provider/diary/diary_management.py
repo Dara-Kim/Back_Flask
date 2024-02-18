@@ -81,12 +81,14 @@ def choosing_parent_diary(date, pid):
     translatedText = parent_diary.pd_translated
     imageUrl = parent_diary.pd_imageURL
     characterUrl_parent = parent_diary.pd_charURL
+    question_parent = parent_diary.pd_question
 
     return {
-        "correctedText": correctedText,  # string
-        "translatedText": translatedText,  # string
-        "imageUrl": imageUrl,  # string
-        "characterUrl": characterUrl_parent,  # string
+        "correctedText": correctedText,
+        "translatedText": translatedText,
+        "imageUrl": imageUrl,
+        "characterUrl": characterUrl_parent,
+        "question": question_parent,
     }
 
 
@@ -100,12 +102,14 @@ def choosing_child_diary(date, pid):
     translatedText = child_diary.cd_translated
     imageUrl = child_diary.cd_imageURL
     characterUrl_child = child_diary.cd_charURL
+    qusetion_child = child_diary.cd_question
 
     return {
         "correctedText": correctedText,  # string
         "translatedText": translatedText,  # string
         "imageUrl": imageUrl,  # string
-        "characterUrl": characterUrl_child,  # string
+        "characterUrl": characterUrl_child,
+        "question": qusetion_child,
     }
 
 
@@ -129,6 +133,7 @@ def writing_parent_diary(pid, text, image):
     charImgUrl = "charImgUrl"
     corretRatio = 33
     langRatio = 3
+    question = "parent_qusetion"
 
     db.set_parent_diary(
         pid,
@@ -138,8 +143,9 @@ def writing_parent_diary(pid, text, image):
         translatedText,
         imageUrl,
         charImgUrl,
-        corretRatio,
         langRatio,
+        corretRatio,
+        question,
     )
 
     return correctedText, translatedText, imageUrl
@@ -164,6 +170,7 @@ def writing_child_diary(pid, image):
     charImgUrl = "charImgUrl"
     corretRatio = 22
     moodRatio = 2
+    question = "child_question"
 
     db.set_child_diary(
         pid,
@@ -174,6 +181,7 @@ def writing_child_diary(pid, image):
         charImgUrl,
         corretRatio,
         moodRatio,
+        question,
     )
 
     return correctedText, translatedText, imageUrl

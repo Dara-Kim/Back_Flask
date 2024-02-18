@@ -45,6 +45,7 @@ class CHILDDIARY(Base):
     cd_charURL = Column(String(255, "utf8mb3_unicode_ci"), nullable=False)
     cd_correctRatio = Column(Integer, nullable=False)
     cd_mood = Column(Integer, nullable=False)
+    cd_question = Column(String(150, "utf8mb3_unicode_ci"), nullable=False)
     id_profile = Column(
         ForeignKey("PROFILE.id_profile", ondelete="CASCADE"), index=True
     )
@@ -64,6 +65,7 @@ class PARENTDIARY(Base):
     pd_charURL = Column(VARCHAR(255), nullable=False)
     pd_langRatio = Column(Integer, nullable=False)
     pd_correctRatio = Column(Integer, nullable=False)
+    pd_question = Column(String(150, "utf8mb3_unicode_ci"), nullable=False)
     id_profile = Column(
         ForeignKey("PROFILE.id_profile", ondelete="CASCADE"), nullable=False, index=True
     )
