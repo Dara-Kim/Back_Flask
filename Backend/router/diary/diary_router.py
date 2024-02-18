@@ -81,13 +81,7 @@ def handle_choosing_parent_diary():
     parent_diary = choosing_parent_diary(date, pid)
     child_diary = choosing_child_diary(date, pid)
 
-    return jsonify(
-        {
-            "hi": "hi"
-            # "parent_diary": parent_diary,
-            # "child_diary": child_diary
-        }
-    )
+    return jsonify({"parent_diary": parent_diary, "child_diary": child_diary})
 
 
 # 통합중
